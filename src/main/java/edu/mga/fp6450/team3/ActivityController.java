@@ -3,10 +3,12 @@
  ******************************************************************************/
 package edu.mga.fp6450.team3;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.mga.fp6450.team3.Stats.Details;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -32,7 +35,7 @@ public class ActivityController {
     private static final String DAY = "DAY ";
     private static final String WEEK = "WEEK ";
     private static final String MONTH = "MONTH ";
-    private static final String OF_YEAR = " OF YEAR";
+    private static final String OF_YEAR = " OF YEAR ";
 
     ActivityController(ActivityRepository repository) {
         this.repository = repository;
@@ -66,7 +69,17 @@ public class ActivityController {
             stepsByCategory.put(dayOfYear, activity.getSteps());
         }
         stats.setCategory(StatsCategory.DAILY);
-        stats.setStepsByCategory(stepsByCategory);
+        List<Details> details = new ArrayList<Stats.Details>();
+        if(stepsByCategory != null) {
+            for (Entry entry : stepsByCategory.entrySet()) {
+                Details stat = stats.new Details();
+                stat.key = entry.getKey().toString();
+                stat.steps = entry.getValue().toString();
+                details.add(stat);
+            }
+            stats.setDetails(details);
+        }
+        //stats.setStepsByCategory(stepsByCategory);
         return stats;
     }
 
@@ -135,7 +148,17 @@ public class ActivityController {
         default:
             break;
         }
-        stats.setStepsByCategory(stepsByCategory);
+        List<Details> details = new ArrayList<Stats.Details>();
+        if(stepsByCategory != null) {
+            for (Entry entry : stepsByCategory.entrySet()) {
+                Details stat = stats.new Details();
+                stat.key = entry.getKey().toString();
+                stat.steps = entry.getValue().toString();
+                details.add(stat);
+            }
+            stats.setDetails(details);
+        }
+        //stats.setStepsByCategory(stepsByCategory);
         stats.setCategory(category);
         return stats;
     }
