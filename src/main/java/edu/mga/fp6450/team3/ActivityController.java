@@ -52,6 +52,7 @@ public class ActivityController {
         Stats stats = new Stats();
         log.info("getting daily activity by default");
         List<Activity> allActivity = repository.findAll();
+        log.info("allActivity: " + allActivity);
         Collections.sort(allActivity);
         Map<String, Integer> stepsByCategory = new TreeMap<String, Integer>();
         for (Activity activity : allActivity) {
@@ -66,7 +67,7 @@ public class ActivityController {
             } else {
                 steps += activity.getSteps();
             }
-            stepsByCategory.put(dayOfYear, activity.getSteps());
+            stepsByCategory.put(dayOfYear, steps);
         }
         stats.setCategory(StatsCategory.DAILY);
         List<Details> details = new ArrayList<Stats.Details>();
@@ -110,7 +111,7 @@ public class ActivityController {
                 } else {
                     steps += activity.getSteps();
                 }
-                stepsByCategory.put(dayOfYear, activity.getSteps());
+                stepsByCategory.put(dayOfYear, steps);
             }
             break;
         case WEEKLY:
@@ -126,7 +127,7 @@ public class ActivityController {
                 } else {
                     steps += activity.getSteps();
                 }
-                stepsByCategory.put(dayOfYear, activity.getSteps());
+                stepsByCategory.put(dayOfYear, steps);
             }
             break;
         case MONTHLY:
@@ -142,7 +143,7 @@ public class ActivityController {
                 } else {
                     steps += activity.getSteps();
                 }
-                stepsByCategory.put(dayOfYear, activity.getSteps());
+                stepsByCategory.put(dayOfYear, steps);
             }
             break;
         default:

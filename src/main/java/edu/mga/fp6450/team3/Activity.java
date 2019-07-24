@@ -23,7 +23,7 @@ import lombok.Data;
 public class Activity implements Comparable<Activity>{
     private @Id @GeneratedValue Long id;
     int steps;
-    @JsonFormat(pattern="mm-dd-yyyy")
+    @JsonFormat(pattern="MM-dd-yyyy HH:mm")
     Date untilTime;
 
     public Activity() {
